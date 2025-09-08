@@ -2,7 +2,6 @@
 
 A simple Flutter app demonstrating **persistent CRUD operations** using **Hive** for local storage and **Riverpod** for state management. This updated version includes full support for **localization** and **internationalization (i18n)**.
 
-\<br\>
 
 -----
 
