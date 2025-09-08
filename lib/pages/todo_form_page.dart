@@ -21,14 +21,25 @@ class _TodoFormPageState extends State<TodoFormPage> {
     title = widget.todo?.title ?? '';
     description = widget.todo?.description ?? '';
   }
-
   void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final newTodo = Todo(title: title, description: description);
-      Navigator.pop(context, newTodo);
+
+      if (widget.todo != null) {
+        // Editing existing
+        widget.todo!
+          ..title = title
+          ..description = description;
+
+        Navigator.pop(context, widget.todo); // ✅ pass the same object back
+      } else {
+        // Creating new
+        final newTodo = Todo(title: title, description: description);
+        Navigator.pop(context, newTodo);
+      }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
