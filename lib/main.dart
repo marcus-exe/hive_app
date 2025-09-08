@@ -25,3 +25,13 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+void printAllTodos() {
+  final box = Hive.box<Todo>('todos');
+
+  print('🔍 Hive Todos (${box.length} items):');
+  for (int i = 0; i < box.length; i++) {
+    final todo = box.getAt(i);
+    print('[$i] Title: ${todo?.title}, Description: ${todo?.description}');
+  }
+}
