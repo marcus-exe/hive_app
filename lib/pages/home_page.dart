@@ -1,6 +1,9 @@
+// pages/home_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_app/l10n/app_localizations.dart'; // Add this import
 import '../models/todo.dart';
 import '../providers/todo_provider.dart';
 import 'todo_form_page.dart';
@@ -8,9 +11,10 @@ import 'todo_form_page.dart';
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
-  void _printAllTodos() {
+  void _printAllTodos(BuildContext context) {
     final box = Hive.box<Todo>('todos');
-    print('🔍 Hive Todos (${box.length} items):');
+    final l10n = AppLocalizations.of(context)!; // Get localization instance
+    print(l10n.hiveTodosLog(box.length)); // Use a localized string with a parameter
     for (int i = 0; i < box.length; i++) {
       final todo = box.getAt(i);
       print('[$i] Title: ${todo?.title}, Description: ${todo?.description}');
@@ -19,13 +23,14 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!; // Get localization instance
     final todos = ref.watch(todoListProvider);
     final todoNotifier = ref.read(todoListProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Hive + Riverpod CRUD')),
+      appBar: AppBar(title: Text(l10n.homePageTitle)), // Use localized title
       body: todos.isEmpty
-          ? const Center(child: Text('No todos yet'))
+          ? Center(child: Text(l10n.homePageEmptyMessage)) // Use localized empty message
           : ListView.builder(
               itemCount: todos.length,
               itemBuilder: (_, index) {
@@ -74,8 +79,8 @@ class HomePage extends ConsumerWidget {
             heroTag: 'print',
             backgroundColor: Colors.grey,
             child: const Icon(Icons.bug_report),
-            onPressed: _printAllTodos,
-            tooltip: 'Print todos to console',
+            onPressed: () => _printAllTodos(context), // Pass context to the method
+            tooltip: l10n.printTodosTooltip, // Use localized tooltip
           ),
         ],
       ),

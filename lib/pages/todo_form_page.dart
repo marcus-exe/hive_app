@@ -1,4 +1,7 @@
+// pages/todo_form_page.dart
+
 import 'package:flutter/material.dart';
+import 'package:hive_app/l10n/app_localizations.dart'; // Add this import
 import '../models/todo.dart';
 
 class TodoFormPage extends StatefulWidget {
@@ -21,6 +24,7 @@ class _TodoFormPageState extends State<TodoFormPage> {
     title = widget.todo?.title ?? '';
     description = widget.todo?.description ?? '';
   }
+
   void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -31,7 +35,7 @@ class _TodoFormPageState extends State<TodoFormPage> {
           ..title = title
           ..description = description;
 
-        Navigator.pop(context, widget.todo); // ✅ pass the same object back
+        Navigator.pop(context, widget.todo);
       } else {
         // Creating new
         final newTodo = Todo(title: title, description: description);
@@ -40,13 +44,16 @@ class _TodoFormPageState extends State<TodoFormPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!; // Get localization instance
     final isEditing = widget.todo != null;
 
     return Scaffold(
-      appBar: AppBar(title: Text(isEditing ? 'Edit Todo' : 'Add Todo')),
+      appBar: AppBar(
+        // Use localized titles based on editing state
+        title: Text(isEditing ? l10n.editTodoTitle : l10n.addTodoTitle)
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -55,22 +62,24 @@ class _TodoFormPageState extends State<TodoFormPage> {
             children: [
               TextFormField(
                 initialValue: title,
-                decoration: const InputDecoration(labelText: 'Title'),
+                // Use localized label
+                decoration: InputDecoration(labelText: l10n.todoTitleLabel), 
                 onSaved: (val) => title = val ?? '',
-                validator: (val) =>
-                    val == null || val.isEmpty ? 'Enter a title' : null,
+                // Use localized validator message
+                validator: (val) => val == null || val.isEmpty ? l10n.enterTitleValidator : null, 
               ),
               TextFormField(
                 initialValue: description,
-                decoration: const InputDecoration(labelText: 'Description'),
+                // Use localized label
+                decoration: InputDecoration(labelText: l10n.todoDescriptionLabel), 
                 onSaved: (val) => description = val ?? '',
-                validator: (val) =>
-                    val == null || val.isEmpty ? 'Enter a description' : null,
+                // Use localized validator message
+                validator: (val) => val == null || val.isEmpty ? l10n.enterDescriptionValidator : null,
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submit,
-                child: Text(isEditing ? 'Update' : 'Add'),
+                child: Text(isEditing ? l10n.updateButton : l10n.addButton), // Use localized button text
               )
             ],
           ),
