@@ -4,9 +4,9 @@ import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for Breton (`br`).
-class AppLocalizationsBr extends AppLocalizations {
-  AppLocalizationsBr([String locale = 'br']) : super(locale);
+/// The translations for Portuguese (`pt`).
+class AppLocalizationsPt extends AppLocalizations {
+  AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
   String get homePageTitle => 'CRUD com Hive + Riverpod';

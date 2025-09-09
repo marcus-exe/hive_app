@@ -3,34 +3,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_app/l10n/app_localizations.dart'; // Add this import
+import 'package:hive_app/l10n/app_localizations.dart';
 import '../models/todo.dart';
 import '../providers/todo_provider.dart';
 import 'todo_form_page.dart';
 
+// Standalone function to print todos
+void _printAllTodos(BuildContext context) {
+  final box = Hive.box<Todo>('todos');
+  final l10n = AppLocalizations.of(context)!;
+  print(l10n.hiveTodosLog(box.length));
+  for (int i = 0; i < box.length; i++) {
+    final todo = box.getAt(i);
+    print('[$i] Title: ${todo?.title}, Description: ${todo?.description}');
+  }
+}
+
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
-  void _printAllTodos(BuildContext context) {
-    final box = Hive.box<Todo>('todos');
-    final l10n = AppLocalizations.of(context)!; // Get localization instance
-    print(l10n.hiveTodosLog(box.length)); // Use a localized string with a parameter
-    for (int i = 0; i < box.length; i++) {
-      final todo = box.getAt(i);
-      print('[$i] Title: ${todo?.title}, Description: ${todo?.description}');
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!; // Get localization instance
+    final l10n = AppLocalizations.of(context)!;
     final todos = ref.watch(todoListProvider);
     final todoNotifier = ref.read(todoListProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.homePageTitle)), // Use localized title
+      appBar: AppBar(
+        title: Text(l10n.homePageTitle),
+      ),
       body: todos.isEmpty
-          ? Center(child: Text(l10n.homePageEmptyMessage)) // Use localized empty message
+          ? Center(child: Text(l10n.homePageEmptyMessage))
           : ListView.builder(
               itemCount: todos.length,
               itemBuilder: (_, index) {
@@ -79,8 +82,8 @@ class HomePage extends ConsumerWidget {
             heroTag: 'print',
             backgroundColor: Colors.grey,
             child: const Icon(Icons.bug_report),
-            onPressed: () => _printAllTodos(context), // Pass context to the method
-            tooltip: l10n.printTodosTooltip, // Use localized tooltip
+            onPressed: () => _printAllTodos(context),
+            tooltip: l10n.printTodosTooltip,
           ),
         ],
       ),

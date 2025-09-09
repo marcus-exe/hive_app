@@ -1,3 +1,5 @@
+// main.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -12,43 +14,39 @@ void main() async {
   Hive.registerAdapter(TodoAdapter());
   await Hive.openBox<Todo>('todos');
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyAppRoot()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyAppRoot extends StatelessWidget {
+  const MyAppRoot({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Set the app's title
       title: 'Hive + Riverpod CRUD',
-      // Configure localization delegates
-      // locale: const Locale('es'),
+      theme: ThemeData(primarySwatch: Colors.indigo),
+      
+      // Add the localizations delegates
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      // List the languages your app supports
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('es'), // Spanish
-        Locale('br'), // Brazilian Portuguese
-      ],
-      theme: ThemeData(primarySwatch: Colors.indigo),
+      supportedLocales: AppLocalizations.supportedLocales,
+      
+      // Use the localeResolutionCallback to handle locale matching
+      localeResolutionCallback: (locale, supportedLocales) {
+        if (locale != null) {
+          final supportedLanguage = supportedLocales.firstWhere(
+            (supportedLocale) => supportedLocale.languageCode == locale.languageCode,
+            orElse: () => supportedLocales.first,
+          );
+          return supportedLanguage;
+        }
+        return supportedLocales.first;
+      },
       home: const HomePage(),
     );
-  }
-}
-
-void printAllTodos() {
-  final box = Hive.box<Todo>('todos');
-
-  print('🔍 Hive Todos (${box.length} items):');
-  for (int i = 0; i < box.length; i++) {
-    final todo = box.getAt(i);
-    print('[$i] Title: ${todo?.title}, Description: ${todo?.description}');
   }
 }
