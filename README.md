@@ -34,7 +34,7 @@ lib/
 ├── l10n/
 │   ├── intl_en.arb
 │   ├── intl_es.arb
-│   └── intl_br.arb
+│   └── intl_pt.arb
 ├── main.dart
 ├── models/
 │   ├── todo.dart
