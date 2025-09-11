@@ -32,6 +32,13 @@ flutter build appbundle --release --obfuscate --split-debug-info=./build/app/sym
 > 📁 The generated `.aab` file will be located at:
 > `build/app/outputs/bundle/release/app-release.aab`
 
+<br>
+_The `.aab` cannot be installed via adb, so if you need to test your app, use_ :
+
+```bash
+flutter build apk --release
+```
+
 #### 📝 Before You Publish:
 
 * Set up signing in `android/app/build.gradle`.
