@@ -1,15 +1,14 @@
 # Hive + Riverpod CRUD with Localization 🌍
 
-A simple Flutter app demonstrating **persistent CRUD operations** using **Hive** for local storage and **Riverpod** for state management. This updated version includes full support for **localization** and **internationalization (i18n)**.
-
+A simple Flutter app demonstrating **persistent CRUD operations** using **Hive** for local storage and **Riverpod** for state management. This updated version includes full support for **localization** and **internationalization (i18n)**, as well as **database encryption**.
 
 -----
 
 ## **Features** ✨
 
   * **Multi-language support** with localization.
+  * **Encrypted persistent storage** using **Hive**.
   * Add, edit, and delete todos.
-  * Persistent storage with **Hive**.
   * Reactive UI using **Riverpod**.
   * Clean project structure with distinct layers for models, repositories, providers, and pages.
 
@@ -21,7 +20,7 @@ This app is localized for the following languages:
 
   * 🇬🇧 **English (en)**
   * 🇪🇸 **Spanish (es)**
-  * 🇧🇷 **Brazilian Portuguese (br)**
+  * 🇧🇷 **Brazilian Portuguese (pt)**
 
 The localization is managed using the official `flutter_gen` and `intl` packages, storing strings in **.arb** (Application Resource Bundle) files.
 
@@ -77,14 +76,14 @@ cd hive_app
 flutter pub get
 ```
 
-### **4. Generate Hive Adapters & Localization Files**
+### **4. Run Code Generation**
 
 ```bash
 flutter pub run build_runner build --delete-conflicting-outputs
 flutter gen-l10n
 ```
 
-> **Note**: These commands generate the necessary `todo.g.dart` file for Hive and the localization files for translations.
+> **Note**: These commands generate the necessary `todo.g.dart` file for Hive and the localization files for translations. The encryption key will be generated and stored securely on the first launch of the app.
 
 ### **5. Run the app**
 
@@ -101,6 +100,7 @@ flutter run
   * [Flutter Riverpod](https://pub.dev/packages/flutter_riverpod) → A robust state management solution.
   * [Flutter Localizations](https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html) → Flutter's built-in localization package.
   * [intl](https://pub.dev/packages/intl) → Dart's official internationalization package.
+  * [flutter\_secure\_storage](https://pub.dev/packages/flutter_secure_storage) → Securely stores the Hive encryption key.
 
 -----
 
@@ -131,7 +131,6 @@ flutter run
 -----
 
 ## **Screenshots** 📸
-
 
 Home | Add | List
 :---:|:---:|:---:
