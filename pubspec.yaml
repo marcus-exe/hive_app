@@ -40,6 +40,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  path_provider: ^2.0.11 # Add this line
 
 dev_dependencies:
   flutter_test:
